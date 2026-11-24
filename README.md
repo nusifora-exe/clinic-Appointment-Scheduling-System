@@ -90,16 +90,27 @@ ClinicAppointmentSystem/
 
 ## ⚙️ How to Run
 
-### Using VS CODE
-1. Install Visual Studio Code (VS Code) on your computer.
-2. Install a C/C++ extension in VS Code.
-3. Install a GCC compiler to compile and run C programs.
-4. Create a project folder and open it in VS Code.
-5. Create a `main.c` file and paste the project source code into it.
-6. Open the terminal and compile the program using `gcc main.c -o main`.
-7. Run the program using `.\main` in the terminal.
-8. Follow the on-screen menu instructions to use the system.
+### Using Visual Studio Code
 
+1. Install Visual Studio Code.
+2. Install the C/C++ extension.
+3. Install GCC compiler (MinGW-w64).
+4. Download the repository as a ZIP file and extract it, or clone the repository using Git.
+5. Open the project folder in VS Code.
+6. Open the integrated terminal.
+7. Compile the program:
+
+   ```bash
+   gcc -std=c99 -Wall -Wextra main.c -o clinic
+   ```
+
+8. Run the program on Windows:
+
+   ```powershell
+   .\clinic.exe
+   ```
+
+9. Follow the on-screen menu instructions.
 
 ### Using GCC
 
@@ -111,8 +122,8 @@ gcc -std=c99 -Wall -Wextra main.c -o clinic
 
 Run on Windows:
 
-```bash
-clinic.exe
+```powershell
+.\clinic.exe
 ```
 
 Run on Linux or macOS:
@@ -121,8 +132,11 @@ Run on Linux or macOS:
 ./clinic
 ```
 
----
+### Data Storage
 
+The system uses C file handling to store patient, doctor, and appointment records.
+
+Data files are created automatically when records are saved, if they do not already exist.
 ## 💡 C Programming Concepts
 
 - Structures
