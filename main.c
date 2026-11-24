@@ -10,13 +10,16 @@
 #define DOCTOR_FILE "doctors.dat"
 #define APPOINTMENT_FILE "appointments.dat"
 
+
 typedef struct {
     int id;
     char name[50];
     int age;
     char gender[15];
     char phone[20];
+    char password[30];
 } Patient;
+
 
 typedef struct {
     int id;
@@ -131,6 +134,9 @@ void patient_registration(void) {
     printf("Enter phone number: ");
     scanf(" %19s", p.phone);
 
+    printf("Create a password: ");
+scanf(" %29s", p.password);
+    
     patients[patient_count++] = p;
     save_data();
 
