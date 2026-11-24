@@ -90,13 +90,16 @@ ClinicAppointmentSystem/
 
 ## ⚙️ How to Run
 
-### Using Code::Blocks
+### Using VS CODE
+1. Install Visual Studio Code (VS Code) on your computer.
+2. Install a C/C++ extension in VS Code.
+3. Install a GCC compiler to compile and run C programs.
+4. Create a project folder and open it in VS Code.
+5. Create a `main.c` file and paste the project source code into it.
+6. Open the terminal and compile the program using `gcc main.c -o main`.
+7. Run the program using `.\main` in the terminal.
+8. Follow the on-screen menu instructions to use the system.
 
-1. Install Code::Blocks with a C compiler.
-2. Create a C Console Application.
-3. Add the project source code to `main.c`.
-4. Build and run the program by pressing `F9`.
-5. Follow the menu instructions.
 
 ### Using GCC
 
