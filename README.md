@@ -6,10 +6,7 @@ A C-based application designed to manage clinic appointments, patient registrati
 ---
 
 ## 📌 Project Overview
-
-The Clinic Appointment Scheduling System is a menu-driven application developed using the C programming language. It helps administrators manage doctor schedules and patient records while allowing patients to view available time slots and book appointments.
-
-The system uses file handling to store information locally and automatically updates appointment availability to prevent double bookings.
+The Clinic Appointment Scheduling System is a C-based application designed to simplify and organize the appointment management process in clinics. It allows administrators to manage doctor information, patient records, and appointment schedules efficiently. Patients can check doctor availability and book appointments easily. The system uses file handling to maintain records and ensures accurate appointment management by preventing scheduling conflicts.
 
 ---
 
