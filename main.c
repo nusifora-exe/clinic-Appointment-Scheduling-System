@@ -143,7 +143,35 @@ scanf(" %29s", p.password);
 
     printf("\nRegistration successful! Your Patient ID is: %d\n", p.id);
 }
+int patient_login(void) {
+    int id, i;
+    char password[30];
 
+    printf("\n===== Patient Login =====\n");
+
+    printf("Enter Patient ID: ");
+    if (scanf("%d", &id) != 1) {
+        printf("Invalid Patient ID!\n");
+        return -1;
+    }
+
+    printf("Enter Password: ");
+    scanf(" %29s", password);
+
+    for (i = 0; i < patient_count; i++) {
+        if (patients[i].id == id &&
+            strcmp(patients[i].password, password) == 0) {
+
+            printf("\nLogin Successful!\n");
+            printf("Welcome, %s!\n", patients[i].name);
+
+            return i;
+        }
+    }
+
+    printf("\nInvalid Patient ID or Password!\n");
+    return -1;
+}
 void add_doctor(void) {
     Doctor d;
 
