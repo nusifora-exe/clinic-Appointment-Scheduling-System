@@ -48,6 +48,7 @@ int appointment_count = 0;
 void load_data(void);
 void save_data(void);
 void patient_registration(void);
+int patient_login(void);
 void view_doctors(void);
 void add_doctor(void);
 void book_appointment(void);
