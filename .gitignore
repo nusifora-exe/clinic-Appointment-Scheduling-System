@@ -1,0 +1,14 @@
+# Compiled C program files
+*.exe
+*.o
+*.out
+
+# Runtime data files
+*.dat
+
+# Temporary and log files
+*.tmp
+*.log
+
+# VS Code settings
+.vscode/
