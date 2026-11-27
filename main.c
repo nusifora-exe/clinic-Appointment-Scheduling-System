@@ -235,23 +235,26 @@ int doctor_exists(int id) {
     return 0;
 }
 
+
 void book_appointment(void) {
     Appointment a;
-    int i;
+    int i, j, doctor_index = -1;
+    int slot_count = 0, available_count = 0;
+    int choice;
+    char slot_list[30];
+    char available_slots[10][20];
+    char *token;
 
     if (appointment_count >= MAX_APPOINTMENTS) {
         printf("\nAppointment limit reached!\n");
         return;
     }
 
-    if (patient_count == 0 || doctor_count == 0) {
-        printf("\nPatient or doctor information is missing.\n");
-        return;
-    }
-
     printf("\n===== Book Appointment =====\n");
+
     printf("Enter Patient ID: ");
-    if (scanf("%d", &a.patient_id) != 1 || !patient_exists(a.patient_id)) {
+    if (scanf("%d", &a.patient_id) != 1 ||
+        !patient_exists(a.patient_id)) {
         printf("Patient not found or invalid ID.\n");
         return;
     }
@@ -259,33 +262,88 @@ void book_appointment(void) {
     view_doctors();
 
     printf("\nEnter Doctor ID: ");
-    if (scanf("%d", &a.doctor_id) != 1 || !doctor_exists(a.doctor_id)) {
+    if (scanf("%d", &a.doctor_id) != 1 ||
+        !doctor_exists(a.doctor_id)) {
         printf("Doctor not found or invalid ID.\n");
         return;
+    }
+
+    for (i = 0; i < doctor_count; i++) {
+        if (doctors[i].id == a.doctor_id) {
+            doctor_index = i;
+            break;
+        }
     }
 
     printf("Enter appointment date (DD-MM-YYYY): ");
     scanf(" %19s", a.date);
 
-    printf("Enter appointment time (e.g. 10:00AM): ");
-    scanf(" %19s", a.time);
+    strcpy(slot_list, doctors[doctor_index].available_time);
 
-    for (i = 0; i < appointment_count; i++) {
-        if (appointments[i].doctor_id == a.doctor_id &&
-            strcmp(appointments[i].date, a.date) == 0 &&
-            strcmp(appointments[i].time, a.time) == 0 &&
-            appointments[i].status == 1) {
-            printf("\nSorry! This time slot is already booked.\n");
-            return;
+    token = strtok(slot_list, ",");
+
+    while (token != NULL && slot_count < 10) {
+        strcpy(available_slots[slot_count], token);
+        slot_count++;
+        token = strtok(NULL, ",");
+    }
+
+    printf("\n===== Available Appointment Slots =====\n");
+
+    for (i = 0; i < slot_count; i++) {
+        int booked = 0;
+
+        for (j = 0; j < appointment_count; j++) {
+            if (appointments[j].doctor_id == a.doctor_id &&
+                strcmp(appointments[j].date, a.date) == 0 &&
+                strcmp(appointments[j].time,
+                       available_slots[i]) == 0 &&
+                appointments[j].status == 1) {
+                booked = 1;
+                break;
+            }
+        }
+
+        if (!booked) {
+            available_count++;
+            printf("%d. %s\n",
+                   available_count, available_slots[i]);
+
+            strcpy(available_slots[available_count - 1],
+                   available_slots[i]);
         }
     }
 
+    if (available_count == 0) {
+        printf("\nSorry! No available slots for this date.\n");
+        return;
+    }
+
+    printf("\nSelect your preferred slot: ");
+
+    if (scanf("%d", &choice) != 1 ||
+        choice < 1 || choice > available_count) {
+        printf("Invalid slot selection.\n");
+        return;
+    }
+
+    strcpy(a.time, available_slots[choice - 1]);
+
     a.id = appointment_count + 1;
     a.status = 1;
+
     appointments[appointment_count++] = a;
     save_data();
 
-    printf("\nAppointment booked successfully! Appointment ID: %d\n", a.id);
+    printf("\n==================================\n");
+    printf("   APPOINTMENT BOOKED SUCCESSFULLY\n");
+    printf("==================================\n");
+    printf("Appointment ID: %d\n", a.id);
+    printf("Patient ID: %d\n", a.patient_id);
+    printf("Doctor ID: %d\n", a.doctor_id);
+    printf("Date: %s\n", a.date);
+    printf("Time: %s\n", a.time);
+    printf("Status: Booked\n");
 }
 
 void view_appointments(void) {
