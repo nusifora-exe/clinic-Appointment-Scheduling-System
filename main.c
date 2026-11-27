@@ -52,6 +52,7 @@ int patient_login(void);
 void view_doctors(void);
 void add_doctor(void);
 void book_appointment(void);
+
 void view_appointments(void);
 void search_appointment(void);
 void cancel_appointment(void);
@@ -235,9 +236,27 @@ int doctor_exists(int id) {
     return 0;
 }
 
+/* Member 4: Double Booking Prevention */
+
+int is_slot_booked(int doctor_id, const char *date, const char *time) {
+    int i;
+
+    for (i = 0; i < appointment_count; i++) {
+        if (appointments[i].doctor_id == doctor_id &&
+            strcmp(appointments[i].date, date) == 0 &&
+            strcmp(appointments[i].time, time) == 0 &&
+            appointments[i].status == 1) {
+
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
 void book_appointment(void) {
     Appointment a;
-    int i;
+    
 
     if (appointment_count >= MAX_APPOINTMENTS) {
         printf("\nAppointment limit reached!\n");
@@ -270,16 +289,10 @@ void book_appointment(void) {
     printf("Enter appointment time (e.g. 10:00AM): ");
     scanf(" %19s", a.time);
 
-    for (i = 0; i < appointment_count; i++) {
-        if (appointments[i].doctor_id == a.doctor_id &&
-            strcmp(appointments[i].date, a.date) == 0 &&
-            strcmp(appointments[i].time, a.time) == 0 &&
-            appointments[i].status == 1) {
-            printf("\nSorry! This time slot is already booked.\n");
-            return;
-        }
-    }
-
+   if (is_slot_booked(a.doctor_id, a.date, a.time)) {
+    printf("\nSorry! This time slot is already booked.\n");
+    return;
+}
     a.id = appointment_count + 1;
     a.status = 1;
     appointments[appointment_count++] = a;
